@@ -1,0 +1,38 @@
+version: '3.8'
+
+networks:
+ network-api:
+  driver: bridge
+
+services:
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: mysql-container
+    env_file: .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$DB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$DB_DATABASE
+      - MYSQL_USER=$DB_USERNAME
+      - MYSQL_PASSWORD=$DB_PASSWORD
+    restart: always
+    ports:
+      - $DB_PORT:$DB_PORT
+    networks:
+      - network-api
+
+  api:
+    build: .
+    env_file: .env
+    container_name: node-container
+    restart: always
+    ports:
+      - $API_EXTERNAL_PORT:$API_INTERNAL_PORT
+    environment:
+      - MYSQL_DATABASE=$DB_DATABASE
+      - MYSQL_USER=$DB_USERNAME
+      - MYSQL_PASSWORD=$DB_PASSWORD
+    depends_on:
+      - db
+    networks:
+     - network-api

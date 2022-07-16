@@ -1,0 +1,21 @@
+{
+  "name": "simple-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node src/server.js",
+    "migration:add": "node src/database/config.js add migration",
+    "migration:run": "node src/database/config.js up",
+    "migration:down": "node src/database/config.js down"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mysql-migrations": "^1.0.7",
+    "mysql2": "^2.3.3"
+  }
+}
